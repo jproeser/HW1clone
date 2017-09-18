@@ -13,18 +13,59 @@
 
 ## [PROBLEM 1] - 150 points
 ## Below is code for one of the simplest possible Flask applications. Edit the code so that once you run this application locally and go to the URL 'http://localhost:5000/class', you see a page that says "Welcome to SI 364!"
+from flask import request
+import itunespy
+#import urllib2
 
-from flask import Flask
+
+from flask import Flask, url_for
 app = Flask(__name__)
 app.debug = True
 
 @app.route('/')
 def hello_to_you():
-    return 'Hello!'
+    return 'Hello'
+
+@app.route('/class')
+def welcome():
+    return 'Welcome to SI 364!'
+
+
+
+@app.route('/movie/<name>')
+def movietest(name):
+
+	try:
+		moviesearch = (itunespy.search_movie(name))
+		r = 0
+		x = []
+		for m in moviesearch:
+			x.append(m)
+			r += 1
+
+		if r < 1:
+			return ('Result Count: ' + '\n' + '0' + '\n\n' + 'Results: ' + '\n\n' + '[]')
+			exit()
+
+
+		return ('Result Count: ' + '\n' + str(r) + '\n\n' + 'Results: ' + '\n\n' + str(x))
+
+	except:
+		#x = []
+		return ('Result Count: ' + '\n' + '0' + '\n\n' + 'Results: ' + '\n\n' + '[]')
+
+
+
 
 
 if __name__ == '__main__':
-    app.run()
+    #app.run(host='localhost:5000')
+    app.run(
+    	host=app.config.get("HOST", "localhost"),
+    	port=app.config.get("PORT", 5000)
+	)    
+
+#with app.test_request_context():
 
 
 ## [PROBLEM 2] - 250 points

@@ -1,0 +1,11 @@
+# import itunespy
+
+# print(itunespy.lookup(movie='ratatouille') )
+
+
+import itunespy
+
+lookup = itunespy.lookup(upc=720642462928) # Lookup for the Weezer's album 'Weezer'
+
+for item in lookup:
+    print(item.artist_name + ': ' + item.collection_name)
